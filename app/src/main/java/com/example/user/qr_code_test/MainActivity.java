@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Camera camera;
     private int camId =1;
+    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             init();
         }
+
+        textView = (TextView)findViewById(R.id.textView);
     }
 
     public void init() {
@@ -65,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        String re = null;
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            String re = scanResult.getContents();
+            re = scanResult.getContents();
             Log.v("ppking", ""+re);
         }
+        textView.setText("QR code :"+re);
         // else continue with any other code you need in the method
 
     }
